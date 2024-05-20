@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Dulux Colour Picker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      font-family: 'Roboto', sans-serif;
+      background-color: #333;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.5s;
+    }
+
+    main {
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      background: #222;
+      margin: 20px;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #eee;
+    }
+
+    button {
+      background-color: #008080;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: background-color 0.3s, transform 0.2s;
+      outline: none;
+    }
+
+    button:hover {
+      background-color: #004d4d;
+      transform: translateY(-2px);
+    }
+
+    #colourDisplay {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      border: 2px solid #fff;
+      transition: background-color 0.5s, transform 0.2s;
+      border-radius: 50%;
+    }
+
+    p {
+      font-size: 1em;
+    }
+
+    .info {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+
+    .button-container {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Random Dulux Colour Picker</h1>
+    <div class="button-container">
+      <button onclick="randomColour()" aria-label="Load a random color">Random Colour</button>
+      <button onclick="showColour()" aria-label="Display the selected color">Show</button>
+    </div>
+    <p class="info">Group: <span id="group">-</span></p>
+    <p class="info">Colour Name: <span id="colourName">-</span></p>
+    <div id="colourDisplay"></div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    let colours = [];
+    let selectedColour = null;
+
+    $.getJSON('/colours', function(data) {
+        colours = data;
+    });
+
+    function randomColour() {
+      // Ensure the background is reset when selecting a new colour
+      document.documentElement.style.backgroundColor = '#333333';
+      document.body.style.backgroundColor = '#333333';
+
+      const index = Math.floor(Math.random() * colours.length);
+      selectedColour = colours[index];
+      document.getElementById("colourName").innerText = selectedColour.name;
+      document.getElementById("group").innerText = selectedColour.group;
+
+      // Reset the colour display to be blank/neutral
+      document.getElementById("colourDisplay").style.backgroundColor = 'transparent';
+    }
+
+    function showColour() {
+      if (selectedColour) {
+        const rgb = selectedColour.rgb;
+        const rgbString = `rgb(${rgb.R}, ${rgb.G}, ${rgb.B})`;
+        document.getElementById("colourDisplay").style.backgroundColor = rgbString;
+
+        // Change the main background colour of the entire HTML document
+        document.documentElement.style.backgroundColor = rgbString;
+        document.body.style.backgroundColor = rgbString;
+      }
+    }
+  </script>
+</body>
+</html>
