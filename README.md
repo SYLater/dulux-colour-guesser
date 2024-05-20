@@ -6,20 +6,6 @@ The Dulux Colour Guesser is a web-based interactive game where players are chall
 
 These instructions will get your copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
-
-What you need to install the software:
-
-- Python 3.6+
-- Flask
-- BeautifulSoup4
-
-You can install the necessary dependencies by running:
-
-```bash
-pip install Flask BeautifulSoup4
-```
-
 ### Installing
 
 A step-by-step series of examples that tell you how to get a development environment running:
